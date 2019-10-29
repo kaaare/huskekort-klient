@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>HTML5 boilerplate – all you really need…</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
@@ -9,18 +10,34 @@
 	<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+    <style>
+        #n_pending {
+            background: green;
+            color: yellow;
+            border-radius: 100%;
+            width: 18px;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            top: -12px;
+            left: -4px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="toplevel" id="dashboard">
-        <a href="#frontside">Fremside</a>
+        <a href="#add_card"><i class="material-icons">library_add</i></a>
+        <a href="#frontside"><i class="material-icons">school</i><span id="n_pending">9</span></a>
     </div>
+
     <div class="toplevel" id="frontside">
 	    <span id="context">Kontekst</span>
         <div id="question">Bla bla, bla bla bla. Bla bla bla.</div>
         <a href="#quickedit"><i class="material-icons">edit</i></a>
         <a href="#backside"><i class="material-icons">redo</i></a>
     </div>
+
     <div class="toplevel" id="backside">
         <div id="answer">Ansi Bansi Mansi Dansi</div>
         <div id="afterthought">Afti Tafti Nafti Bafti</div>
@@ -28,6 +45,7 @@
         <a href="#source"><i class="material-icons">book</i></a>
         <a href="#rembembered"><i class="material-icons">thumb_up</i></a>
     </div>
+
     <script>
 
         // Hide all toplevels. TODO: make it hidden in the html (less surprises on slow loads).
@@ -41,6 +59,9 @@
 
         dashboard.hidden = false;
 
+
+        // Router
+
         window.onhashchange = e => {
             console.log(e);
             let fragment = window.location.hash;
@@ -49,7 +70,7 @@
                 toplevel.hidden = true;
             });
 
-            fragment = fragment || "#dashboard"; // Catches onchange where the back button is used until the root url with no fragment.
+            fragment = fragment || "#dashboard"; // Catches onchange's where the back button is used until reaching the root url with no fragment.
 
             document.querySelector(fragment).hidden = false;
         }
