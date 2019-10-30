@@ -26,24 +26,61 @@
 </head>
 
 <body>
+
     <div class="toplevel" id="dashboard">
-        <a href="#add_card"><i class="material-icons">library_add</i></a>
-        <a href="#frontside"><i class="material-icons">school</i><span id="n_pending">9</span></a>
+        <a href="#addCard"><i class="material-icons">library_add</i></a>
+        <a href="#nextPending"><i class="material-icons">school</i><span class="model" id="n_pending">9</span></a>
     </div>
 
-    <div class="toplevel" id="frontside">
-	    <span id="context">Kontekst</span>
-        <div id="question">Bla bla, bla bla bla. Bla bla bla.</div>
-        <a href="#quickedit"><i class="material-icons">edit</i></a>
-        <a href="#backside"><i class="material-icons">redo</i></a>
-    </div>
+    <div class="toplevel" id="nextPending">
 
-    <div class="toplevel" id="backside">
-        <div id="answer">Ansi Bansi Mansi Dansi</div>
-        <div id="afterthought">Afti Tafti Nafti Bafti</div>
-        <a href="#forgot"><i class="material-icons">thumb_down</i></a>
-        <a href="#source"><i class="material-icons">book</i></a>
-        <a href="#rembembered"><i class="material-icons">thumb_up</i></a>
+        <div id="frontside">
+            <span class="model" id="context">Kontekst</span>
+            <div class="model" id="question">Bla bla, bla bla bla. Bla bla bla.</div>
+            <a href="#quickedit"><i class="material-icons">edit</i></a>
+            <a href="#backside"><i class="material-icons">redo</i></a>
+        </div>
+
+        <div class="toplevel" id="backside">
+            <div class="model" id="answer">Ansi Bansi Mansi Dansi</div>
+            <div class="model" id="afterthought">Afti Tafti Nafti Bafti</div>
+            <a href="#forgot"><i class="material-icons">thumb_down</i></a>
+            <a href="#source"><i class="material-icons">book</i></a>
+            <a href="#rembembered"><i class="material-icons">thumb_up</i></a>
+        </div>
+
+        <script>
+            window.nextPending.model = {
+                context: 'Kontekst her',
+                question: 'Spørsmål her',
+                answer: 'Svar her',
+                afterthought: 'Ettertanke her',
+                source: 'Kilde her'
+            };
+            window.nextPending.remembered = function() {};
+            window.nextPending.forgot = function () {};
+            window.nextPending.refresh = function () {
+                    // TODO: Update model from API.
+                    for (let field in window.nextPending.model) {
+                        window.nextPending.querySelector('#' + field).textContent = window.nextPending.model[field];
+                    }
+            };
+            window.nextPending.quickedit = function () {};
+
+            let intersectOptions = {
+                root: document.bodyElement,
+                rootMargin: '0px',
+                threshold: 0.1
+            }
+
+            let nextPendingObserver = new IntersectionObserver(window.nextPending.refresh, intersectOptions);
+            nextPendingObserver.observe(nextPending);
+            // TODO: generalize observer, vall refresh on observed "entries"
+            // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+            // Consider this pattern on a div class "component" instead of toplevel, and seeing toplevel as something else.
+            // Does toplevels behave differently than components in any way that is not sufficient to express in CSS?
+        </script>
+
     </div>
 
     <script>
@@ -62,7 +99,7 @@
 
         // Router
 
-        window.onhashchange = e => {
+        window.onload = window.onhashchange = e => { // Activate router on hashchange but also on page load, in case a url with a fragment is accessed.
             console.log(e);
             let fragment = window.location.hash;
             console.log("fragment: ", fragment);
@@ -74,6 +111,30 @@
 
             document.querySelector(fragment).hidden = false;
         }
+
+
+        // Model
+
+        /*
+            model.nextPending = {
+                context: ''.
+                question: '',
+                answer: '',
+                afterthought: '',
+                source: '',
+                remembered: function () {},
+                forgot: function () {},
+                refresh: function () {},
+                quickedit: function () {},
+            }
+            hadde vært enklere om modellen kunne tilhøre en dialog....mister...
+            front
+        */
+
+        window.model = {
+            updateView: function (data) {},
+
+        };
     </script>
 </body>
 </html>
