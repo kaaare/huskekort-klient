@@ -1,0 +1,10 @@
+# TODO: lære å være konsekvent og ikke bytte imellom å skrive engelsk og norsk hele tiden...
+
+event handler:  window.onhashchange
+Cuddle name:    Router
+responsibility: Trigger the display and hiding of toplevel components when a fragment url is accessed or updated. There is no map maintained between hash/fragment urls and toplevel components, this map is derived each time the handler is triggered, from inspecting the DOM and listing all elements that has a class name "toplevel" in them.
+
+object:         componentVisibilityObserver
+cuddle name:    Visibility detector
+responsibility: Populate components with values when the component is rendered visible. This is done by querying the DOM for elements having the class name "model", and using the id of that element as the name of the components property to populate the html elements textContent with.
+methods:        only the standard methods provided by the InteractionObserver API
