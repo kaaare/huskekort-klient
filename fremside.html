@@ -73,12 +73,24 @@
                 threshold: 0.1
             }
 
-            let nextPendingObserver = new IntersectionObserver(window.nextPending.refresh, intersectOptions);
-            nextPendingObserver.observe(nextPending);
+            // let nextPendingObserver = new IntersectionObserver(window.nextPending.refresh, intersectOptions);
+            // nextPendingObserver.observe(nextPending);
             // TODO: generalize observer, vall refresh on observed "entries"
             // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
             // Consider this pattern on a div class "component" instead of toplevel, and seeing toplevel as something else.
             // Does toplevels behave differently than components in any way that is not sufficient to express in CSS?
+
+            window.populateComponent = function (entry) {
+                let target = entry.target;
+                for (let field in target.model) {
+                    target.querySelector('#' + field).textContent = target.model[field];
+                } // TODO: make a component class having a refresh() method.
+            };
+
+            window.componentVisibilityObserver = new IntersectionObserver(populateComponent, intersectOptions);
+
+            document.querySelectorAll(".toplevel").forEach(el => componentVisibilityObserver.observe(el));
+
         </script>
 
     </div>
@@ -113,28 +125,10 @@
         }
 
 
-        // Model
-
-        /*
-            model.nextPending = {
-                context: ''.
-                question: '',
-                answer: '',
-                afterthought: '',
-                source: '',
-                remembered: function () {},
-                forgot: function () {},
-                refresh: function () {},
-                quickedit: function () {},
-            }
-            hadde vært enklere om modellen kunne tilhøre en dialog....mister...
-            front
-        */
-
-        window.model = {
-            updateView: function (data) {},
-
-        };
+        // window.model = {
+        //     updateView: function (data) {},
+        //
+        // };
     </script>
 </body>
 </html>
